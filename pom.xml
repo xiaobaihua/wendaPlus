@@ -16,7 +16,7 @@
                 <version>8.8.3</version>
                 <configuration>
                     <vendor>test</vendor>
-                    <mainClass>com.xbh.wenda.Main</mainClass>
+                    <mainClass>com.xbh.wendaPlus.Main</mainClass>
                 </configuration>
             </plugin>
 

@@ -29,8 +29,8 @@ class ExcelCellIndexTest {
             ExcelBean excelBean = new ExcelBean(askBean);
             excelBean.setSex("男");
             excelBean.setAge("123");
-            excelBean.setIssue("你好你好你好啊啊啊啊啊啊啊啊啊啊啊啊");
-            excelBean.setResult("日日日日日日日日日日日日日日一ir一日日");
+//            excelBean.setIssue("你好你好你好啊啊啊啊啊啊啊啊啊啊啊啊");
+//            excelBean.setResult("日日日日日日日日日日日日日日一ir一日日");
             for (int j = 0; j < 3; j++) {
                 excelBean.getResultList().add(String.valueOf(System.currentTimeMillis()));
             }

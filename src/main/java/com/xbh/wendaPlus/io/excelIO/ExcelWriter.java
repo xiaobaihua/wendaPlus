@@ -1,6 +1,5 @@
 package com.xbh.wendaPlus.io.excelIO;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import com.xbh.wendaPlus.bean.ExcelBean;
 import com.xbh.wendaPlus.cofig.ExcelFieldConfig;
 import com.xbh.wendaPlus.utils.ExcelReaderWriterUtils;
@@ -30,7 +29,6 @@ public class ExcelWriter implements IExcelWriter {
     }
 
     private Sheet createSheet(File file) {
-        TODO 创建工作表方法重载;
         return null;
     }
 
@@ -48,7 +46,7 @@ public class ExcelWriter implements IExcelWriter {
     @Override
     public void write(List resultList, Class clazz) throws NoSuchFieldException, IllegalAccessException, IOException {
         Sheet sheet = createSheet();
-        for (int i = 0; i < resultList.size(); i++) {
+        for (int i = 1; i < resultList.size(); i++) {
             Row row = sheet.getRow(i);
             ExcelBean excelBean = (ExcelBean)resultList.get(i);
 
@@ -59,19 +57,7 @@ public class ExcelWriter implements IExcelWriter {
         }
         workbook.write(os);
 
-
-//        for (Field field : clazz.getDeclaredFields()) {
-//            if (field != null) {
-//                String fieldName = ExcelReaderWriterUtils.getFieldName(field);
-//                MutablePair<String, Integer> pair = ExcelFieldConfig.CYTranslation.get(fieldName);
-//                if (pair.getValue() > -1) {
-//                    if (isResultList(field, clazz)) {
-//                        setResultList(Row row, pair.getValue(), field.get(bean))
-//                    }
-//                }
-//                    System.out.println(pair.getKey() + ": "  );
-//            }
-//        }
+        System.exit(0);
     }
 
     public void writeAskBeanToRow(Row row, ExcelBean bean) throws NoSuchFieldException, IllegalAccessException {
@@ -79,7 +65,6 @@ public class ExcelWriter implements IExcelWriter {
         for (Field field : beanClass.getDeclaredFields()) {
             if (field != null) {
                 field.setAccessible(true);
-
                 String fieldName = ExcelReaderWriterUtils.getFieldName(field);
                 MutablePair<String, Integer> pair = ExcelFieldConfig.CYTranslation.get(fieldName);
                 if (pair != null && pair.getValue() > -1) {
@@ -101,26 +86,24 @@ public class ExcelWriter implements IExcelWriter {
 
     // 写入row中
     private void writeToCell(Row row, Integer index, String value) {
+        if (value == null || value.equals("") || value.equals(" ")) {
+            return;
+        }
+
         Cell cell = row.getCell(index);
         if (cell == null) {
             row.createCell(index).setCellValue(value);
         }
     }
 
-//    private void setExcelCell(Row row, AskBean bean) throws IllegalAccessException {
-//        for (Field field : bean.getClass().getDeclaredFields()) {
-////            if (field.getName() == bean.getClass().getDeclaredField(""))
-//            if (field.get(bean) != null) {
-//
-//            }
-//        }
-//    }
-
     private void setResultList(Row row, Integer index, List<String> values) {
-        for (int i = 0; i < values.size(); i++) {
-            String value = values.get(i);
-            writeToCell(row, index + i, String.valueOf(value));
+        if (values != null) {
+            for (int i = 0; i < values.size(); i++) {
+                String value = values.get(i);
+                writeToCell(row, index + i, String.valueOf(value));
+            }
         }
+
     }
 
     private boolean isResultList(Field field, Class clazz) throws NoSuchFieldException {
