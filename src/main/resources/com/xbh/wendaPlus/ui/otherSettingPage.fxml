@@ -19,7 +19,7 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Button mnemonicParsing="false" onMouseClicked="#WordsLength" text="问题描述设置" />
+                              <Button mnemonicParsing="false" onMouseClicked="#issueConfig" text="问题描述设置" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER">

@@ -227,28 +227,29 @@ public class MyStringUtils {
 	}
 
 	public static String deleteFirstSymbol(String s) {
-		// 判断首行是否为字符
-		final char[] target = s.toCharArray();
-		for (String symbol : AssembleDict.symbolList) {
-			if (symbol == null || symbol.length() == 0) {
-				continue;
-			}
-			if (target == null || symbol.length() == 0) {
-				continue;
-			}
+		if (s != null && s.length() > 0) {
+			// 判断首行是否为字符
+			final char[] target = s.toCharArray();
+			for (String symbol : AssembleDict.symbolList) {
+				if (symbol == null || symbol.length() == 0) {
+					continue;
+				}
+				if (target == null || symbol.length() == 0) {
+					continue;
+				}
 
 
-			char c = symbol.toCharArray()[0];
-			// 下标为0， 1， 2都有可能是字符， 都剔除
-			if (target.length > 1 && target[0] == c ) {
-				s = s.replaceFirst("["+String.valueOf(c)+"]", "");
-			} else if (target.length > 2 && target[1] == c) {
-				s = s.replaceFirst("["+String.valueOf(c)+"]", "");
-			} else if (target.length > 3 &&target[2] == c) {
-				s = s.replaceFirst("["+String.valueOf(c)+"]", "");
+				char c = symbol.toCharArray()[0];
+				// 下标为0， 1， 2都有可能是字符， 都剔除
+				if (target.length > 1 && target[0] == c ) {
+					s = s.replaceFirst("["+String.valueOf(c)+"]", "");
+				} else if (target.length > 2 && target[1] == c) {
+					s = s.replaceFirst("["+String.valueOf(c)+"]", "");
+				} else if (target.length > 3 &&target[2] == c) {
+					s = s.replaceFirst("["+String.valueOf(c)+"]", "");
+				}
 			}
 		}
-
 
 		return s;
 	}

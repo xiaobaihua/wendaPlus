@@ -13,7 +13,12 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class DZSpider extends RamCrawler implements ISpider {
-
+    public DZSpider() {
+        setResumable(false);
+        setThreads(50);
+        conf.setExecuteInterval(1000);
+        getConf().setConnectTimeout(10000);
+    }
 
     @MatchType(types = "DZYSQA")
     public void DZVisit(Page page, CrawlDatums next) {

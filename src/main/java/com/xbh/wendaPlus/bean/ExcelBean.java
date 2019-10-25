@@ -5,7 +5,6 @@ import com.xbh.wendaPlus.filter.GenerateFinalResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,14 @@ public class ExcelBean {
     public void setResult(PageResultVO vo) {
         GenerateFinalResult finalResult = new GenerateFinalResult();
         String result = finalResult.generateResult(vo);
+//        List<String> result = finalResult.generateResultList(vo);
         this.result = result;
+
+//        if (result != null && result.size() > 0) {
+//            this.result = result.get(0);
+//        }
+
+
     }
 
     public void setIssue(PageResultVO vo) {

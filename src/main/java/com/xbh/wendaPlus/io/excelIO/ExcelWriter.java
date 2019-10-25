@@ -49,10 +49,10 @@ public class ExcelWriter implements IExcelWriter {
         for (int i = 1; i < resultList.size(); i++) {
             Row row = sheet.getRow(i);
             ExcelBean excelBean = (ExcelBean)resultList.get(i);
-
             if (row == null) {
                 row = sheet.createRow(i);
             }
+
             writeAskBeanToRow(row, excelBean);
         }
         workbook.write(os);

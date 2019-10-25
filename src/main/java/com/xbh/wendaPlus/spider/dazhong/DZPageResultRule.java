@@ -7,11 +7,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class DZPageResultRule {
+    
     public void parseXiaoBian(Page page, AskBean askBean, int i, int i1) {
         PageResultVO vo = askBean.getPageResultVOList();
         if (vo == null) {
             vo = new PageResultVO();
             askBean.setPageResultVOList(vo);
+            vo.setTitle(askBean.getTitle());
         }
 
         getResultXiaoBian(vo, page);

@@ -3,9 +3,11 @@ package com.xbh.wendaPlus.cofig;
 public class SettingConfig {
     public static String issueWordsLengthMin = "0";
     public static String issueWordsLengthMax = "99999999";
+    public static String issueMode = "数量优先";
 
     public static String resultWordsLengthMin = "0";
     public static String resultWordsLengthMax = "99999999";
+    public static String resultMode = "数量优先";
 
 
     public static String getIssueWordsLengthMin() {
@@ -46,5 +48,21 @@ public class SettingConfig {
 
     public static void setAnsWordLengthMaxMin(String max) {
         resultWordsLengthMin = max;
+    }
+
+    public static String getIssueMode() {
+        return issueMode;
+    }
+
+    public static void setIssueMode(String issueMode) {
+        SettingConfig.issueMode = issueMode;
+    }
+
+    public static String getResultMode() {
+        return resultMode;
+    }
+
+    public static void setResultMode(String resultMode) {
+        SettingConfig.resultMode = resultMode;
     }
 }

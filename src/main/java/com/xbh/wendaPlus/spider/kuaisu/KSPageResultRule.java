@@ -16,6 +16,7 @@ public class KSPageResultRule {
         if (vo == null) {
             vo = new PageResultVO();
             askBean.setPageResultVOList(vo);
+            vo.setTitle(askBean.getTitle());
         }
 
         getBeanIssueByPage(vo, page, minLen, maxLen);

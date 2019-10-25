@@ -21,27 +21,33 @@ public class GenerateFinalResult {
                 String maxLengthStrByList = getMaxLengthStrByList(resultList);
                 return MyStringUtils.deleteFirstSymbol(maxLengthStrByList);
             } else if (SettingConfig.getResultMode().equals("质量优先")) {
+                Integer lengthMin = Integer.valueOf(SettingConfig.getResultWordsLengthMin());
+                Integer lengthMax = Integer.valueOf(SettingConfig.getResultWordsLengthMax());
                 NPLFilter filter = new NPLFilter();
                 List<Pair> resultListSameRate = filter.getResultListSameRate(vo.getTitle(), vo.getResult());
                 if (resultListSameRate != null && resultListSameRate.size() > 0) {
-                    String s = resultListSameRate.get(0).getValue().toString();
-                    return MyStringUtils.deleteFirstSymbol(s);
-                }
-            } else if (SettingConfig.getResultMode().equals("字数限制")) {
-                Integer lengthMin = Integer.valueOf(SettingConfig.getResultWordsLengthMin());
-                Integer lengthMax = Integer.valueOf(SettingConfig.getResultWordsLengthMax());
-                if (vo != null) {
-                    List<String> resultList = vo.getResult();
-                    if (resultList.size() > 0) {
-                        for (String result : resultList) {
-                            Integer exclusiveSymbolStrLength = MyStringUtils.getExclusiveSymbolStrLength(result);
-                            if (exclusiveSymbolStrLength > lengthMin && exclusiveSymbolStrLength < lengthMax) {
-                                return MyStringUtils.deleteFirstSymbol(result);
-                            }
-                        }
+                    String result = resultListSameRate.get(0).getValue().toString();
+                    Integer exclusiveSymbolStrLength = MyStringUtils.getExclusiveSymbolStrLength(result);
+                    if (exclusiveSymbolStrLength > lengthMin && exclusiveSymbolStrLength < lengthMax) {
+                        return MyStringUtils.deleteFirstSymbol(result);
                     }
                 }
             }
+//            else if (SettingConfig.getResultMode().equals("字数限制")) {
+//                Integer lengthMin = Integer.valueOf(SettingConfig.getResultWordsLengthMin());
+//                Integer lengthMax = Integer.valueOf(SettingConfig.getResultWordsLengthMax());
+//                if (vo != null) {
+//                    List<String> resultList = vo.getResult();
+//                    if (resultList.size() > 0) {
+//                        for (String result : resultList) {
+//                            Integer exclusiveSymbolStrLength = MyStringUtils.getExclusiveSymbolStrLength(result);
+//                            if (exclusiveSymbolStrLength > lengthMin && exclusiveSymbolStrLength < lengthMax) {
+//                                return MyStringUtils.deleteFirstSymbol(result);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
 
         return "";
@@ -58,58 +64,52 @@ public class GenerateFinalResult {
                     String deleteFirstSymbol = MyStringUtils.deleteFirstSymbol(desOrderList.get(i));
                     desOrderList.set(i, deleteFirstSymbol);
                 }
-                
+
                 return desOrderList;
             } else if (SettingConfig.getResultMode().equals("质量优先")) {
+                Integer lengthMin = Integer.valueOf(SettingConfig.getResultWordsLengthMin());
+                Integer lengthMax = Integer.valueOf(SettingConfig.getResultWordsLengthMax());
                 List<String> strList = new ArrayList<>();
                 NPLFilter filter = new NPLFilter();
                 List<Pair> resultListSameRate = filter.getResultListSameRate(vo.getTitle(), vo.getResult());
                 if (resultListSameRate != null) {
-                    for (Pair pair : resultListSameRate) {
-                        strList.add(MyStringUtils.deleteFirstSymbol(pair.getValue().toString()));
-                    }
-                    return strList;
-                }
-            } else if (SettingConfig.getResultMode().equals("字数限制")) {
-                Integer lengthMin = Integer.valueOf(SettingConfig.getResultWordsLengthMin());
-                Integer lengthMax = Integer.valueOf(SettingConfig.getResultWordsLengthMax());
-                if (vo != null) {
-                    List<String> result = vo.getResult();
-                    ArrayList<String> strings = new ArrayList<>();
                     int curInt = 0;
-                    for (String s : result) {
+                    for (Pair pair : resultListSameRate) {
+                        String deleteFirstSymbol = MyStringUtils.deleteFirstSymbol(pair.getValue().toString());
                         if (curInt == 3) {
-                            return strings;
+                            return strList;
                         }
-                        if (s.length() > lengthMin && s.length() < lengthMax){
-                            s = MyStringUtils.deleteFirstSymbol(s);
-
-                            strings.add(s);
+                        if (deleteFirstSymbol.length() > lengthMin && deleteFirstSymbol.length() < lengthMax){
+                            strList.add(deleteFirstSymbol);
                             curInt++;
                         }
                     }
-                    return strings;
+                    return strList;
                 }
             }
-        }
-
-
-        return null;
-
-//        if (vo != null) {
-//            List<String> result = vo.getResult();
-//            ArrayList<String> strings = new ArrayList<>();
-//            int curInt = 0;
-//            for (String s : result) {
-//                if (curInt == 3) {
+//            else if (SettingConfig.getResultMode().equals("字数限制")) {
+//                Integer lengthMin = Integer.valueOf(SettingConfig.getResultWordsLengthMin());
+//                Integer lengthMax = Integer.valueOf(SettingConfig.getResultWordsLengthMax());
+//                if (vo != null) {
+//                    List<String> result = vo.getResult();
+//                    ArrayList<String> strings = new ArrayList<>();
+//                    int curInt = 0;
+//                    for (String s : result) {
+//                        if (curInt == 3) {
+//                            return strings;
+//                        }
+//                        if (s.length() > lengthMin && s.length() < lengthMax){
+//                            s = MyStringUtils.deleteFirstSymbol(s);
+//
+//                            strings.add(s);
+//                            curInt++;
+//                        }
+//                    }
 //                    return strings;
 //                }
-//                strings.add(s);
-//                curInt++;
 //            }
-//            return strings;
-//        }
-
+        }
+        return null;
     }
 
     public String generateIssue(PageResultVO vo) {
@@ -120,11 +120,17 @@ public class GenerateFinalResult {
 
                 return MyStringUtils.deleteFirstSymbol(maxLengthStrByList);
             } else if (SettingConfig.getIssueMode().equals("质量优先")) {
+                Integer lengthMin = Integer.valueOf(SettingConfig.getIssueWordsLengthMin());
+                Integer lengthMax = Integer.valueOf(SettingConfig.getIssueWordsLengthMax());
                 NPLFilter filter = new NPLFilter();
                 List<Pair> issueListSameRate = filter.getIssueListSameRate(vo.getTitle(), vo.getIssue());
                 if (issueListSameRate != null && issueListSameRate.size() > 0) {
                     String s = issueListSameRate.get(0).getValue().toString();
-                    return MyStringUtils.deleteFirstSymbol(s);
+                    s = MyStringUtils.deleteFirstSymbol(s);
+                    Integer exclusiveSymbolStrLength = MyStringUtils.getExclusiveSymbolStrLength(s);
+                    if (exclusiveSymbolStrLength > lengthMin && exclusiveSymbolStrLength < lengthMax) {
+                        return s;
+                    }
                 }
 
             } else if (SettingConfig.getIssueMode().equals("字数限制")) {

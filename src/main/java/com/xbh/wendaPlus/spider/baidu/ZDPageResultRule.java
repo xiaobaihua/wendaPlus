@@ -17,6 +17,7 @@ public class ZDPageResultRule {
         if (vo == null) {
             vo = new PageResultVO();
             askBean.setPageResultVOList(vo);
+            vo.setTitle(askBean.getTitle());
         }
 
         gerResult(vo, page);
