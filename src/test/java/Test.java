@@ -9,6 +9,13 @@ import java.util.List;
 public class Test {
 
     @org.junit.Test
+    public void test3() {
+
+
+    }
+
+
+    @org.junit.Test
     public void test2() {
         List<String> strings = new ArrayList<>();
 

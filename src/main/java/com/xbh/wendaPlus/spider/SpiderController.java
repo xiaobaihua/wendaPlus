@@ -41,7 +41,7 @@ public class SpiderController {
             baiDuSpider.addUrlAndStart(askBeanList);
         }
 
-        // 添加第二个重定向连接
+        // 添加第二个结果页重定向连接
         ContentSpider contentSpider = new ContentSpider();
         contentSpider.addUrlAndStart(askBeanList);
 
@@ -68,7 +68,6 @@ public class SpiderController {
 
         return excelBeans;
     }
-
 
     private boolean addOneUrl() throws Exception {
         UrlFactory urlFactory = new UrlFactory();
@@ -101,7 +100,6 @@ public class SpiderController {
 
         return true;
     }
-
 
     public File getOutFile() {
         return outFile;

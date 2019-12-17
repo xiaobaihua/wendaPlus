@@ -10,13 +10,17 @@ import com.xbh.wendaPlus.spider.SpiderController;
 import com.xbh.wendaPlus.spider.dazhong.DZPageResultRule;
 import com.xbh.wendaPlus.spider.dazhong.DZSpider;
 import com.xbh.wendaPlus.spider.kuaisu.KSPageResultRule;
+import com.xbh.wendaPlus.spider.myzx.MYZXRule;
 import com.xbh.wendaPlus.spider.threenien.SJPageResultRule;
+import com.xbh.wendaPlus.spider.youlai.YLPageResultRule;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class ContentSpider extends RamCrawler implements ISpider {
-    static int l = 0;
+    List l = new ArrayList();
+
     public ContentSpider() {
         setResumable(false);
         setThreads(50);
@@ -26,6 +30,7 @@ public class ContentSpider extends RamCrawler implements ISpider {
 
     @MatchType(types = "ksQA")
     public void ksQA(Page page, CrawlDatums next) {
+
         SpiderController.completed ++;
         // 如果301 , 302就复制meta数据并且添加到下一个任务
         if (page.code() == 301 || page.code() == 302) {
@@ -110,6 +115,65 @@ public class ContentSpider extends RamCrawler implements ISpider {
         }
     }
 
+    @MatchType(types = "YLQA")
+    public void YLQA(Page page, CrawlDatums next) {
+        SpiderController.completed ++;
+        // 如果301 , 302就复制meta数据并且添加到下一个任务
+        if (page.code() == 301 || page.code() == 302) {
+            AskBean askBean = SpiderController.askBeanList.get(Integer.valueOf(page.meta("id")));
+            final String s = page.location();
+            if (Pattern.matches(".*youlai.cn/ask/[0-9].*", s)) {
+                if (askBean.getThreeUrl().size() < 10) {
+                    next.addAndReturn(page.location()).meta(page.meta()).type("YLQA");
+                    askBean.getThreeUrl().add(page.location());
+                }
+            }
+//            if (Pattern.matches(".*zhidao.baidu.com/question/.*", s)) {
+//                if (askBean.getThreeUrl().size() < 10) {
+//                    next.addAndReturn(page.location()).meta(page.meta()).type("BDZDQA");
+//                    askBean.getThreeUrl().add(page.location());
+//                }
+//            }
+        } else {
+            AskBean askBean = SpiderController.askBeanList.get(Integer.valueOf(page.meta("id")));
+            YLPageResultRule rule = new YLPageResultRule();
+            rule.parse(page, askBean, 60, 90);
+        }
+    }
+
+    @MatchType(types = "MYZXQA")
+    public void MYZXQA(Page page, CrawlDatums next) {
+        SpiderController.completed ++;
+        // 如果301 , 302就复制meta数据并且添加到下一个任务
+        if (page.code() == 301 || page.code() == 302) {
+            AskBean askBean = SpiderController.askBeanList.get(Integer.valueOf(page.meta("id")));
+            final String s = page.location();
+//            if (Pattern.matches(".*youlai.cn/ask/[0-9].*", s)) {
+            if (Pattern.matches(".*myzx.cn.*", s)) {
+                if (askBean.getThreeUrl().size() < 10) {
+                    next.addAndReturn(page.location()).meta(page.meta()).type("MYZXQA");
+                    askBean.getThreeUrl().add(page.location());
+                }
+            }
+//            if (Pattern.matches(".*zhidao.baidu.com/question/.*", s)) {
+//                if (askBean.getThreeUrl().size() < 10) {
+//                    next.addAndReturn(page.location()).meta(page.meta()).type("BDZDQA");
+//                    askBean.getThreeUrl().add(page.location());
+//                }
+//            }
+        } else {
+            AskBean askBean = SpiderController.askBeanList.get(Integer.valueOf(page.meta("id")));
+            MYZXRule rule = new MYZXRule();
+            if (Pattern.matches(".*myzx.cn/mip/video/id/.*", page.url())) {
+                rule.parse(page, askBean, 60, 90);
+            } else if (Pattern.matches(".*myzx.cn/web/video/newinfo/.*", page.url())) {
+                rule.parseVideoPage(page, askBean, 60, 90);
+            }
+
+        }
+    }
+
+
 
     @Override
     public void visit(Page page, CrawlDatums next) {
@@ -133,6 +197,10 @@ public class ContentSpider extends RamCrawler implements ISpider {
             addUrlAndType(beans, "DZYSQA");
         } else if (SpiderController.CurrentTargetSite.equals("百度知道")) {
             addUrlAndType(beans, "BDZDQA");
+        } else if (SpiderController.CurrentTargetSite.equals("有来医生")) {
+            addUrlAndType(beans, "YLQA");
+        }else if (SpiderController.CurrentTargetSite.equals("名医在线网")) {
+            addUrlAndType(beans, "MYZXQA");
         }
     }
 

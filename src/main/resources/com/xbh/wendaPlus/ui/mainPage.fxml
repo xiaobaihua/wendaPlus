@@ -23,6 +23,8 @@
                             <String fx:value="39健康问答_39健康网_39问医生" />
                             <String fx:value="大众养生网" />
                             <String fx:value="百度知道" />
+                            <String fx:value="有来医生" />
+                            <String fx:value="名医在线网" />
                         </ChoiceBox>
                          <Label fx:id="inputExcel" layoutX="42.0" layoutY="121.0" prefHeight="15.0" />
                         <Label layoutX="57.0" layoutY="30.0" text="选择目标网站" />
