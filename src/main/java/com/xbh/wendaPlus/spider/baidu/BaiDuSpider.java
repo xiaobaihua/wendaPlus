@@ -20,9 +20,9 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
     public static class MyRequester extends OkHttpRequester {
 
 //        String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
-        String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36";
+        String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0";
 //        String cookie = "BAIDUID=A2976BD2E005965910F5A773EF5F4682:FG=1; BIDUPSID=A2976BD2E005965910F5A773EF5F4682; PSTM=1566356188; BD_UPN=13314752";
-        String cookie = "BAIDUID=A2976BD2E005965910F5A773EF5F4682:FG=1; BIDUPSID=A2976BD2E005965910F5A773EF5F4682; PSTM=1566356188; BD_UPN=13314752; H_PS_PSSID=1462_21091_30211; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; H_PS_645EC=d75cbO%2F6iisVhUo6xNJHriC90%2FlEvMCM6Juqu8TxKzVLwTxmdR3cfwb11C4; delPer=0; BD_CK_SAM=1; PSINO=3; BDRCVFR[gltLrB7qNCt]=mk3SLVN4HKm; ZD_ENTRY=baidu";
+        String cookie = "BAIDUID=A2976BD2E005965910F5A773EF5F4682:FG=1; BIDUPSID=A2976BD2E005965910F5A773EF5F4682; PSTM=1566356188; BD_UPN=13314752; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; H_PS_PSSID=1462_21091; H_PS_645EC=c7afksAq87YDkU7cisyooUKf4XD58KVbtMQ7UU%2B5C%2FkUir6Gc9hse1%2FGf8aMYrBW6A8t; delPer=0; BD_CK_SAM=1; PSINO=3; BDSVRTM=0";
 
         // 每次发送请求前都会执行这个方法来构建请求
         @Override
@@ -31,7 +31,14 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
             // 可以参考OkHttp的文档来修改请求头
             return super.createRequestBuilder(crawlDatum)
                     .addHeader("User-Agent", userAgent)
-                    .addHeader("Cookie", cookie);
+                    .addHeader("Cookie", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+                    .addHeader("Accept-Encoding", "gzip, deflate, br")
+                    .addHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2")
+                    .addHeader("Cache-Control", "max-age=0")
+                    .addHeader("Connection", "keep-alive")
+                    .addHeader("Cookie", "BAIDUID=A2976BD2E005965910F5A773EF5F4682:FG=1; BIDUPSID=A2976BD2E005965910F5A773EF5F4682; PSTM=1566356188; BD_UPN=13314752; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; H_PS_PSSID=1462_21091; H_PS_645EC=c7afksAq87YDkU7cisyooUKf4XD58KVbtMQ7UU%2B5C%2FkUir6Gc9hse1%2FGf8aMYrBW6A8t; delPer=0; BD_CK_SAM=1; PSINO=3; BDSVRTM=0")
+                    .addHeader("Host", "www.baidu.com")
+                    .addHeader("Upgrade-Insecure-Requests", "1");
         }
 
     }
@@ -46,17 +53,22 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
 
     @MatchType(types = "ksBaidu")
     public void visitOne(Page page, CrawlDatums next) {
-        if (page.code() != 200){
-            System.out.println(page.location());
-            System.out.println(page.url());
-
-            System.out.println(123);
+        if (page.code() == 301 || page.code() == 302) {
+            next.addAndReturn(page.location()).meta(page.meta()).type("ksBaidu");
         } else {
+
+            System.out.println(page);
+
             final Integer id = Integer.valueOf(page.meta("id"));
             final AskBean bean = SpiderController.askBeanList.get(id);
             SpiderController.completed++;
-            Elements s = page.select("div.result");
-            for (Element element : s.select("a.c-showurl")) {
+            Elements s = page.select("#content_left");
+
+
+            System.out.println(page.url());
+            System.out.println(page.html());
+
+            for (Element element : s.select("#content_left")) {
                 bean.getTwoUrl().add(element.attr("href"));
             }
         }
