@@ -93,6 +93,7 @@ public class MainPageController extends Application {
     @FXML
     public void run(MouseEvent mouseEvent) throws IOException {
         this.selectTargetSiteUrl(null);
+        this.total.setStyle("-fx-text-fill:red");
 
         new Thread(()->{
             try {
@@ -114,7 +115,7 @@ public class MainPageController extends Application {
 
                         while (true){
                             //更新service的value属性
-                            updateValue("最大"+SpiderController.askBeanList.size() + SpiderController.askBeanList.size() * 20 + "| 已完成:" + SpiderController.completed);
+                            updateValue("最大"+(SpiderController.askBeanList.size() + SpiderController.askBeanList.size() * 20 )+ "| 已完成:" + SpiderController.completed);
 //							//更新service的progress属性
 //							updateProgress(a, 100d);
                             Thread.sleep(100);

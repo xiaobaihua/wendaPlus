@@ -46,7 +46,7 @@
                            </font>
                         </Label>
                         <Label fx:id="outputExcel" layoutX="51.0" layoutY="84.0" prefHeight="18.0" />
-                        <Button layoutX="319.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#run" text="开始爬取" />
+                        <Button layoutX="319.0"  layoutY="134.0" mnemonicParsing="false" onMouseClicked="#run" text="开始爬取" />
                         <Label fx:id="total" layoutX="152.0" layoutY="108.0" prefHeight="18.0" text="" />
                      </children>
                   </AnchorPane>
