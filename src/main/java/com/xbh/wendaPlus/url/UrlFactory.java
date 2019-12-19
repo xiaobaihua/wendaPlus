@@ -9,6 +9,8 @@ import java.util.List;
 public class UrlFactory {
 
     private String baiduUrl = "https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=baidu&wd=";
+    private String soUrl = "http://so.120ask.com/?kw=";
+
 
     public String production(String title, String site) throws UnsupportedEncodingException {
         String url = baiduUrl + URLEncoder.encode(title, "UTF-8") + URLEncoder.encode(site, "UTF-8");

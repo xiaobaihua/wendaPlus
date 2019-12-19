@@ -8,7 +8,6 @@ import com.xbh.wendaPlus.bean.AskBean;
 import com.xbh.wendaPlus.spider.ISpider;
 import com.xbh.wendaPlus.spider.SpiderController;
 import com.xbh.wendaPlus.spider.dazhong.DZPageResultRule;
-import com.xbh.wendaPlus.spider.dazhong.DZSpider;
 import com.xbh.wendaPlus.spider.kuaisu.KSPageResultRule;
 import com.xbh.wendaPlus.spider.myzx.MYZXRule;
 import com.xbh.wendaPlus.spider.threenien.SJPageResultRule;
@@ -30,7 +29,6 @@ public class ContentSpider extends RamCrawler implements ISpider {
 
     @MatchType(types = "ksQA")
     public void ksQA(Page page, CrawlDatums next) {
-
         SpiderController.completed ++;
         // 如果301 , 302就复制meta数据并且添加到下一个任务
         if (page.code() == 301 || page.code() == 302) {
@@ -155,12 +153,6 @@ public class ContentSpider extends RamCrawler implements ISpider {
                     askBean.getThreeUrl().add(page.location());
                 }
             }
-//            if (Pattern.matches(".*zhidao.baidu.com/question/.*", s)) {
-//                if (askBean.getThreeUrl().size() < 10) {
-//                    next.addAndReturn(page.location()).meta(page.meta()).type("BDZDQA");
-//                    askBean.getThreeUrl().add(page.location());
-//                }
-//            }
         } else {
             AskBean askBean = SpiderController.askBeanList.get(Integer.valueOf(page.meta("id")));
             MYZXRule rule = new MYZXRule();

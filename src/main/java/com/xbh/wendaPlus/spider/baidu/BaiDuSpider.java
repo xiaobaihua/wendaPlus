@@ -29,17 +29,41 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
         public Request.Builder createRequestBuilder(CrawlDatum crawlDatum) {
             // 这里使用的是OkHttp中的Request.Builder
             // 可以参考OkHttp的文档来修改请求头
+//            return super.createRequestBuilder(crawlDatum)
+//                    .addHeader("User-Agent", userAgent)
+//                    .addHeader("Cookie", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+//                    .addHeader("Accept-Encoding", "gzip, deflate, br")
+//                    .addHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2")
+//                    .addHeader("Cache-Control", "max-age=0")
+//                    .addHeader("Connection", "keep-alive")
+//                    .addHeader("Cookie", "BAIDUID=A2976BD2E005965910F5A773EF5F4682:FG=1; BIDUPSID=A2976BD2E005965910F5A773EF5F4682; PSTM=1566356188; BD_UPN=13314752; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; H_PS_PSSID=1462_21091; H_PS_645EC=c7afksAq87YDkU7cisyooUKf4XD58KVbtMQ7UU%2B5C%2FkUir6Gc9hse1%2FGf8aMYrBW6A8t; delPer=0; BD_CK_SAM=1; PSINO=3; BDSVRTM=0")
+//                    .addHeader("Host", "www.baidu.com")
+//                    .addHeader("Upgrade-Insecure-Requests", "1");
             return super.createRequestBuilder(crawlDatum)
                     .addHeader("User-Agent", userAgent)
-                    .addHeader("Cookie", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-                    .addHeader("Accept-Encoding", "gzip, deflate, br")
-                    .addHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2")
-                    .addHeader("Cache-Control", "max-age=0")
-                    .addHeader("Connection", "keep-alive")
-                    .addHeader("Cookie", "BAIDUID=A2976BD2E005965910F5A773EF5F4682:FG=1; BIDUPSID=A2976BD2E005965910F5A773EF5F4682; PSTM=1566356188; BD_UPN=13314752; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; H_PS_PSSID=1462_21091; H_PS_645EC=c7afksAq87YDkU7cisyooUKf4XD58KVbtMQ7UU%2B5C%2FkUir6Gc9hse1%2FGf8aMYrBW6A8t; delPer=0; BD_CK_SAM=1; PSINO=3; BDSVRTM=0")
-                    .addHeader("Host", "www.baidu.com")
-                    .addHeader("Upgrade-Insecure-Requests", "1");
+                    .addHeader("Cookie", "QiHooGUID=47FF006FE8BDC2CA3C27E206DB907DBA.1576599006910; _S=nudm7qc6p3jg6jtrkp1kh45a66; opqopq=c99def61eab5c19c801fa66a7f899430.1576599006; __guid=15484592.486576919899187650.1576599020253.0596; count=2; dpr=1; screenw=1; webp=1; __huid=11jE5d9U0PnRYbYpcReIdvEjh3NHq2E0RUfraczLESttc%3D; gtHuid=1");
         }
+
+    }
+
+    public static class soRequester extends OkHttpRequester {
+//         每次发送请求前都会执行这个方法来构建请求
+//        @Override
+//        public Request.Builder createRequestBuilder(CrawlDatum crawlDatum) {
+//            // 这里使用的是OkHttp中的Request.Builder
+//            // 可以参考OkHttp的文档来修改请求头
+////            return super.createRequestBuilder(crawlDatum)
+////                    .addHeader("User-Agent", userAgent)
+////                    .addHeader("Cookie", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+////                    .addHeader("Accept-Encoding", "gzip, deflate, br")
+////                    .addHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2")
+////                    .addHeader("Cache-Control", "max-age=0")
+////                    .addHeader("Connection", "keep-alive")
+////                    .addHeader("Cookie", "BAIDUID=A2976BD2E005965910F5A773EF5F4682:FG=1; BIDUPSID=A2976BD2E005965910F5A773EF5F4682; PSTM=1566356188; BD_UPN=13314752; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; H_PS_PSSID=1462_21091; H_PS_645EC=c7afksAq87YDkU7cisyooUKf4XD58KVbtMQ7UU%2B5C%2FkUir6Gc9hse1%2FGf8aMYrBW6A8t; delPer=0; BD_CK_SAM=1; PSINO=3; BDSVRTM=0")
+////                    .addHeader("Host", "www.baidu.com")
+////                    .addHeader("Upgrade-Insecure-Requests", "1");
+//            return super.createRequestBuilder(crawlDatum);
+//        }
 
     }
 
@@ -47,8 +71,8 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
         setResumable(false);
         setThreads(100);
         // 设置请求插件
-        setRequester(new MyRequester());
-        this.conf.setExecuteInterval(1000);
+        setRequester(new soRequester());
+        this.conf.setExecuteInterval(2000);
     }
 
     @MatchType(types = "ksBaidu")
@@ -56,20 +80,15 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
         if (page.code() == 301 || page.code() == 302) {
             next.addAndReturn(page.location()).meta(page.meta()).type("ksBaidu");
         } else {
-
             System.out.println(page);
 
             final Integer id = Integer.valueOf(page.meta("id"));
             final AskBean bean = SpiderController.askBeanList.get(id);
             SpiderController.completed++;
-            Elements s = page.select("#content_left");
+            Elements s = page.select("#datalist");
 
-
-            System.out.println(page.url());
-            System.out.println(page.html());
-
-            for (Element element : s.select("#content_left")) {
-                bean.getTwoUrl().add(element.attr("href"));
+            for (Element element : s.select("span.c_url")) {
+                bean.getTwoUrl().add(element.text());
             }
         }
     }
@@ -82,10 +101,9 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
     public void Visit39(Page page, CrawlDatums next) {
         final Integer id = Integer.valueOf(page.meta("id"));
         final AskBean bean = SpiderController.askBeanList.get(id);
-
         SpiderController.completed++;
-        Elements s = page.select("div.result");
-        for (Element element : s.select("a.c-showurl")) {
+        Elements s = page.select(".result_l");
+        for (Element element : s.select("#datalist")) {
             bean.getTwoUrl().add(element.attr("href"));
         }
     }
@@ -96,8 +114,9 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
         final AskBean bean = SpiderController.askBeanList.get(id);
 
         SpiderController.completed++;
-        Elements s = page.select("div.result");
-        for (Element element : s.select("a.c-showurl")) {
+        Elements s = page.select("h3.res-title");
+
+        for (Element element : s.select("a")) {
             bean.getTwoUrl().add(element.attr("href"));
         }
     }
@@ -120,8 +139,9 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
         final AskBean bean = SpiderController.askBeanList.get(id);
 
         SpiderController.completed++;
-        Elements s = page.select("div.result");
-        for (Element element : s.select("a.c-showurl")) {
+        Elements s = page.select("h3.res-title");
+
+        for (Element element : s.select("a")) {
             bean.getTwoUrl().add(element.attr("href"));
         }
     }
@@ -132,8 +152,9 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
         final AskBean bean = SpiderController.askBeanList.get(id);
 
         SpiderController.completed++;
-        Elements s = page.select("div.result");
-        for (Element element : s.select("a.c-showurl")) {
+        Elements s = page.select("h3.res-title");
+
+        for (Element element : s.select("a")) {
             bean.getTwoUrl().add(element.attr("href"));
         }
     }

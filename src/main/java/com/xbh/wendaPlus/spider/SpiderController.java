@@ -7,6 +7,7 @@ import com.xbh.wendaPlus.io.excelIO.ExcelReader;
 import com.xbh.wendaPlus.io.excelIO.ExcelWriter;
 import com.xbh.wendaPlus.spider.baidu.BaiDuSpider;
 import com.xbh.wendaPlus.spider.baidu.ContentSpider;
+import com.xbh.wendaPlus.spider.baidu.HtmlUnit.HtmlUnit;
 import com.xbh.wendaPlus.ui.MainPageController;
 import com.xbh.wendaPlus.url.UrlFactory;
 
@@ -36,11 +37,16 @@ public class SpiderController {
     public void spiderRun(MainPageController pageController) throws Exception {
         // 添加第一个百度连接
         boolean b = addOneUrl();
-        if (b == true) {
-            BaiDuSpider baiDuSpider = new BaiDuSpider();
-            baiDuSpider.addUrlAndStart(askBeanList);
-        }
 
+        if (b) {
+            HtmlUnit htmlUnit = new HtmlUnit();
+            htmlUnit.getOSData(askBeanList);
+        }
+//        if (b == true) {
+//            BaiDuSpider baiDuSpider = new BaiDuSpider();
+//            baiDuSpider.addUrlAndStart(askBeanList);
+//        }
+//
         // 添加第二个结果页重定向连接
         ContentSpider contentSpider = new ContentSpider();
         contentSpider.addUrlAndStart(askBeanList);
@@ -80,7 +86,6 @@ public class SpiderController {
             } else {
                 return false;
             }
-
             for (AskBean bean : askBeanList) {
                 ArrayList<String> urlList = new ArrayList<>();
                 if (CurrentTargetSite != null) {
