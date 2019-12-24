@@ -6,6 +6,7 @@ import cn.edu.hfut.dmic.webcollector.model.CrawlDatums;
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import cn.edu.hfut.dmic.webcollector.plugin.net.OkHttpRequester;
 import cn.edu.hfut.dmic.webcollector.plugin.ram.RamCrawler;
+import com.xbh.wendaPlus.AskController;
 import com.xbh.wendaPlus.bean.AskBean;
 import com.xbh.wendaPlus.spider.ISpider;
 import com.xbh.wendaPlus.spider.SpiderController;
@@ -83,7 +84,7 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
             System.out.println(page);
 
             final Integer id = Integer.valueOf(page.meta("id"));
-            final AskBean bean = SpiderController.askBeanList.get(id);
+            final AskBean bean = AskController.askBeanList.get(id);
             SpiderController.completed++;
             Elements s = page.select("#datalist");
 
@@ -100,7 +101,7 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
     @MatchType(types = "39Baidu")
     public void Visit39(Page page, CrawlDatums next) {
         final Integer id = Integer.valueOf(page.meta("id"));
-        final AskBean bean = SpiderController.askBeanList.get(id);
+        final AskBean bean = AskController.askBeanList.get(id);
         SpiderController.completed++;
         Elements s = page.select(".result_l");
         for (Element element : s.select("#datalist")) {
@@ -111,7 +112,7 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
     @MatchType(types = "DZYSBaidu")
     public void VisitDZYS(Page page, CrawlDatums next) {
         final Integer id = Integer.valueOf(page.meta("id"));
-        final AskBean bean = SpiderController.askBeanList.get(id);
+        final AskBean bean = AskController.askBeanList.get(id);
 
         SpiderController.completed++;
         Elements s = page.select("h3.res-title");
@@ -124,7 +125,7 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
     @MatchType(types = "BDZDBaidu")
     public void VisitBDZD(Page page, CrawlDatums next) {
         final Integer id = Integer.valueOf(page.meta("id"));
-        final AskBean bean = SpiderController.askBeanList.get(id);
+        final AskBean bean = AskController.askBeanList.get(id);
 
         SpiderController.completed++;
         Elements s = page.select("div.result");
@@ -136,7 +137,7 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
     @MatchType(types = "YLBaidu")
     public void VisitYL(Page page, CrawlDatums next) {
         final Integer id = Integer.valueOf(page.meta("id"));
-        final AskBean bean = SpiderController.askBeanList.get(id);
+        final AskBean bean = AskController.askBeanList.get(id);
 
         SpiderController.completed++;
         Elements s = page.select("h3.res-title");
@@ -149,7 +150,7 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
     @MatchType(types = "myzxBaidu")
     public void Visitmyzx(Page page, CrawlDatums next) {
         final Integer id = Integer.valueOf(page.meta("id"));
-        final AskBean bean = SpiderController.askBeanList.get(id);
+        final AskBean bean = AskController.askBeanList.get(id);
 
         SpiderController.completed++;
         Elements s = page.select("h3.res-title");

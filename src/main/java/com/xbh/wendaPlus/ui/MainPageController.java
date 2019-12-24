@@ -32,11 +32,11 @@ import java.util.Map;
  */
 public class MainPageController extends Application {
     public TextField maxThread;
-    public Group radioGroup;
+    public int runType = 0;
     private SpiderController sc = new SpiderController();
 
 //    @FXML
-    public ToggleGroup radioToggleGroup = new ToggleGroup();
+    public ToggleGroup radioToggleGroup;
 
     @FXML
     private ChoiceBox selectTargetSite;
@@ -103,10 +103,11 @@ public class MainPageController extends Application {
     public void run(MouseEvent mouseEvent) throws IOException {
         this.selectTargetSiteUrl(null);
         this.total.setStyle("-fx-text-fill:red");
+        // 改变运行模式
+        SpiderController.runType = this.runType;
 
         // 改变线程数
         Integer value = Integer.valueOf(maxThread.getText());
-
         HtmlUnit.maxThread = value;
 
         new Thread(()->{
@@ -129,7 +130,7 @@ public class MainPageController extends Application {
 
                         while (true){
                             //更新service的value属性
-                            updateValue("最大"+(SpiderController.askBeanList.size() + SpiderController.askBeanList.size() * 20 )+ "| 已完成:" + SpiderController.completed);
+                            updateValue("最大"+(SpiderController.beanList.size() + SpiderController.beanList.size() * 20 )+ "| 已完成:" + SpiderController.completed);
 //							//更新service的progress属性
 //							updateProgress(a, 100d);
                             Thread.sleep(100);
@@ -158,8 +159,8 @@ public class MainPageController extends Application {
     }
 
     public void radioClickEvent(MouseEvent mouseEvent) {
-        Toggle radioToggle = this.radioToggleGroup.getSelectedToggle();
-
-        System.out.println(radioToggle);
+        Toggle selectedToggle = this.radioToggleGroup.getSelectedToggle();
+        this.runType = Integer.valueOf(selectedToggle.getUserData().toString());
+        System.out.println(this.runType);
     }
 }

@@ -4,6 +4,7 @@ import cn.edu.hfut.dmic.webcollector.model.CrawlDatum;
 import cn.edu.hfut.dmic.webcollector.model.CrawlDatums;
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import cn.edu.hfut.dmic.webcollector.plugin.ram.RamCrawler;
+import com.xbh.wendaPlus.AskController;
 import com.xbh.wendaPlus.bean.AskBean;
 import com.xbh.wendaPlus.spider.ISpider;
 import com.xbh.wendaPlus.spider.SpiderController;
@@ -22,7 +23,7 @@ public class DZSpider extends RamCrawler implements ISpider {
 
     @MatchType(types = "DZYSQA")
     public void DZVisit(Page page, CrawlDatums next) {
-        AskBean askBean = SpiderController.askBeanList.get(Integer.valueOf(page.meta("id")));
+        AskBean askBean = AskController.askBeanList.get(Integer.valueOf(page.meta("id")));
         DZPageResultRule rule = new DZPageResultRule();
 
         askBean.getPages().add(page);
