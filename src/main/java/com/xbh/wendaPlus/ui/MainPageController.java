@@ -2,15 +2,20 @@ package com.xbh.wendaPlus.ui;
 
 import com.xbh.wendaPlus.Main;
 import com.xbh.wendaPlus.spider.SpiderController;
+import com.xbh.wendaPlus.spider.baidu.HtmlUnit.HtmlUnit;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -26,8 +31,12 @@ import java.util.Map;
  * @author Administrator
  */
 public class MainPageController extends Application {
+    public TextField maxThread;
+    public Group radioGroup;
     private SpiderController sc = new SpiderController();
 
+//    @FXML
+    public ToggleGroup radioToggleGroup = new ToggleGroup();
 
     @FXML
     private ChoiceBox selectTargetSite;
@@ -95,6 +104,11 @@ public class MainPageController extends Application {
         this.selectTargetSiteUrl(null);
         this.total.setStyle("-fx-text-fill:red");
 
+        // 改变线程数
+        Integer value = Integer.valueOf(maxThread.getText());
+
+        HtmlUnit.maxThread = value;
+
         new Thread(()->{
             try {
                 sc.spiderRun(this);
@@ -141,5 +155,11 @@ public class MainPageController extends Application {
         stageMap.put("settingStage", settingStage);
         OtherSettingPageController otherSettingPageController = new OtherSettingPageController();
         otherSettingPageController.start(settingStage);
+    }
+
+    public void radioClickEvent(MouseEvent mouseEvent) {
+        Toggle radioToggle = this.radioToggleGroup.getSelectedToggle();
+
+        System.out.println(radioToggle);
     }
 }

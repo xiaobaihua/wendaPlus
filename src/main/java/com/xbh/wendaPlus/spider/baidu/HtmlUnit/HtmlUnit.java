@@ -24,13 +24,15 @@ import java.util.concurrent.*;
  **/
 public class HtmlUnit {
 //    private BlockingQueue  queue = new LinkedBlockingDeque();
-    ExecutorService executor = Executors.newFixedThreadPool(100);
+    ExecutorService executor = null;
     LinkedList<AskBean> beans = new LinkedList<>();
     private static int total = 0;
+    public static Integer maxThread = 100;
 //    private static boolean flag = false;
 //    private Object parentObject = null;
 
-//    public HtmlUnit() throws InterruptedException {
+    public HtmlUnit() throws InterruptedException {
+        this.executor = Executors.newFixedThreadPool(maxThread);
 //        parentObject = this;
 //
 //        for (int i = 0; i < 100; i++) {
@@ -41,7 +43,7 @@ public class HtmlUnit {
 //                e.printStackTrace();
 //            }
 //        }
-//    }
+    }
 
     private WebClient createWebClient() {
         //新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
