@@ -182,17 +182,17 @@ public class ContentSpider extends RamCrawler implements ISpider {
 
     @Override
     public void addUrl(List<AskBean> beans) {
-        if (SpiderController.CurrentTargetSite.equals("有问必答_快速问医生")) {
+        if (AskController.CurrentTargetSite.equals("有问必答_快速问医生")) {
             addUrlAndType(beans, "ksQA");
-        } else if (SpiderController.CurrentTargetSite.equals("39健康问答_39健康网_39问医生")) {
+        } else if (AskController.CurrentTargetSite.equals("39健康问答_39健康网_39问医生")) {
             addUrlAndType(beans, "39QA");
-        } else if (SpiderController.CurrentTargetSite.equals("大众养生网")) {
+        } else if (AskController.CurrentTargetSite.equals("大众养生网")) {
             addUrlAndType(beans, "DZYSQA");
-        } else if (SpiderController.CurrentTargetSite.equals("百度知道")) {
+        } else if (AskController.CurrentTargetSite.equals("百度知道")) {
             addUrlAndType(beans, "BDZDQA");
-        } else if (SpiderController.CurrentTargetSite.equals("有来医生")) {
+        } else if (AskController.CurrentTargetSite.equals("有来医生")) {
             addUrlAndType(beans, "YLQA");
-        }else if (SpiderController.CurrentTargetSite.equals("名医在线网")) {
+        }else if (AskController.CurrentTargetSite.equals("名医在线网")) {
             addUrlAndType(beans, "MYZXQA");
         }
     }

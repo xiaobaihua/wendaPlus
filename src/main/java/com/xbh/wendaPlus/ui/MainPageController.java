@@ -1,9 +1,15 @@
 package com.xbh.wendaPlus.ui;
 
+import com.sun.javafx.binding.StringFormatter;
+import com.xbh.wendaPlus.ArticleController;
+import com.xbh.wendaPlus.AskController;
 import com.xbh.wendaPlus.Main;
+import com.xbh.wendaPlus.cofig.ArticleUIConfig;
 import com.xbh.wendaPlus.spider.SpiderController;
 import com.xbh.wendaPlus.spider.baidu.HtmlUnit.HtmlUnit;
+import com.xbh.wendaPlus.url.UrlFactory;
 import javafx.application.Application;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -18,6 +24,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -147,11 +154,19 @@ public class MainPageController extends Application {
 
 
     public void selectTargetSiteUrl(ActionEvent actionEvent) {
-        SpiderController.CurrentTargetSite = this.selectTargetSite.getValue().toString();
+        // 如果是问答模式
+        if (this.runType == 0) {
+            AskController.CurrentTargetSite = this.selectTargetSite.getValue().toString();
+        } else if (this.runType == 1) {
+            // 文章模式
+            // 改变文章控制器的站点id
+            String siteName = this.selectTargetSite.getValue().toString();
+
+            ArticleController.siteType = ArticleUIConfig.articleNameMap.get(siteName);
+        }
     }
 
     public void otherSetting(MouseEvent mouseEvent) throws Exception {
-//        System.out.println(stageMap);
         Stage settingStage = new Stage();
         stageMap.put("settingStage", settingStage);
         OtherSettingPageController otherSettingPageController = new OtherSettingPageController();
@@ -161,6 +176,15 @@ public class MainPageController extends Application {
     public void radioClickEvent(MouseEvent mouseEvent) {
         Toggle selectedToggle = this.radioToggleGroup.getSelectedToggle();
         this.runType = Integer.valueOf(selectedToggle.getUserData().toString());
-        System.out.println(this.runType);
+        // 判断模式
+        // 如果是文章模式
+        if (this.runType == 1) {
+            // 重置目标站点
+            this.selectTargetSite.getItems().removeAll(this.selectTargetSite.getItems());
+            this.selectTargetSite.setValue("飞华健康网");
+            for (String siteName : ArticleUIConfig.articleNameMap.keySet()) {
+                this.selectTargetSite.getItems().add(siteName);
+            }
+        }
     }
 }

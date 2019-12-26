@@ -173,17 +173,17 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
 
     @Override
     public void addUrl(List<AskBean> beans) {
-        if (SpiderController.CurrentTargetSite.equals("有问必答_快速问医生")) {
+        if (AskController.CurrentTargetSite.equals("有问必答_快速问医生")) {
             addUrlAndType(beans, "ksBaidu");
-        } else if (SpiderController.CurrentTargetSite.equals("39健康问答_39健康网_39问医生")) {
+        } else if (AskController.CurrentTargetSite.equals("39健康问答_39健康网_39问医生")) {
             addUrlAndType(beans, "39Baidu");
-        } else if (SpiderController.CurrentTargetSite.equals("大众养生网")) {
+        } else if (AskController.CurrentTargetSite.equals("大众养生网")) {
             addUrlAndType(beans, "DZYSBaidu");
-        } else if (SpiderController.CurrentTargetSite.equals("百度知道")) {
+        } else if (AskController.CurrentTargetSite.equals("百度知道")) {
             addUrlAndType(beans, "BDZDBaidu");
-        } else if (SpiderController.CurrentTargetSite.equals("有来医生")) {
+        } else if (AskController.CurrentTargetSite.equals("有来医生")) {
             addUrlAndType(beans, "YLBaidu");
-        } else if (SpiderController.CurrentTargetSite.equals("名医在线网")) {
+        } else if (AskController.CurrentTargetSite.equals("名医在线网")) {
             addUrlAndType(beans, "myzxBaidu");
         }
     }

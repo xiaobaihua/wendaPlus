@@ -1,5 +1,6 @@
 package com.xbh.wendaPlus.spider;
 
+import com.xbh.wendaPlus.ArticleController;
 import com.xbh.wendaPlus.AskController;
 import com.xbh.wendaPlus.bean.AskBean;
 import com.xbh.wendaPlus.bean.ExcelBean;
@@ -29,7 +30,7 @@ public class SpiderController {
     private File outFile;
     private File inFile;
     public static List beanList = new ArrayList();
-    public static String CurrentTargetSite = null;
+//    public static String CurrentTargetSite = null;
 
     public void start(String[] args) {
         MainPageController.launch(MainPageController.class, args);
@@ -45,6 +46,9 @@ public class SpiderController {
             askController.execute();
         } else if (runType == 1) {
             // 文章模式
+            ArticleController controller = new ArticleController();
+            controller.initController(inFile, outFile);
+            controller.execute();
         }
     }
 

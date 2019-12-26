@@ -22,6 +22,7 @@ import java.util.List;
  **/
 public class AskController {
     public static List<AskBean> askBeanList = new ArrayList();
+    public static String CurrentTargetSite = null;
     private File inFile;
     private File outFile;
 
@@ -88,14 +89,14 @@ public class AskController {
             }
             for (AskBean bean : askBeanList) {
                 ArrayList<String> urlList = new ArrayList<>();
-                if (SpiderController.CurrentTargetSite != null) {
+                if (CurrentTargetSite != null) {
                     String title = null;
                     if (bean.getTitle() != null) {
                         title = bean.getTitle();
                     } else if (bean.getTitle1() != null) {
                         title = bean.getTitle1();
                     }
-                    String production = urlFactory.production(title, SpiderController.CurrentTargetSite);
+                    String production = urlFactory.production(title, CurrentTargetSite);
                     urlList.add(production);
                 }
                 bean.setOneUrl(urlList);
