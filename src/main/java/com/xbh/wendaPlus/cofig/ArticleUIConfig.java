@@ -16,5 +16,6 @@ public class ArticleUIConfig {
     static {
         articleNameMap.put("飞华健康网", 0);
         articleNameMap.put("寻医问药", 1);
+        articleNameMap.put("百度文库", 2);
     }
 }

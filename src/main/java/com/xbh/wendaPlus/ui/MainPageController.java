@@ -122,6 +122,7 @@ public class MainPageController extends Application {
                 sc.spiderRun(this);
             } catch (Exception e) {
                 e.printStackTrace();
+                System.exit(-1);
             }
         }).start();
         test();
@@ -137,10 +138,18 @@ public class MainPageController extends Application {
 
                         while (true){
                             //更新service的value属性
-                            updateValue("最大"+(SpiderController.beanList.size() + SpiderController.beanList.size() * 20 )+ "| 已完成:" + SpiderController.completed);
-//							//更新service的progress属性
-//							updateProgress(a, 100d);
-                            Thread.sleep(100);
+                            if (runType == 0) {
+                                updateValue("最大"+(SpiderController.beanList.size() + SpiderController.beanList.size() * 20 )+ "| 已完成:" + SpiderController.completed);
+    //							//更新service的progress属性
+    //							updateProgress(a, 100d);
+                                Thread.sleep(100);
+                            } else if (runType == 1) {
+                                updateValue("最大"+ArticleController.articleBeanList.size()+ "| 已完成:" + ArticleController.completed);
+    //							//更新service的progress属性
+    //							updateProgress(a, 100d);
+                                Thread.sleep(100);
+                            }
+
                         }
                     }
                 };
@@ -180,8 +189,9 @@ public class MainPageController extends Application {
         // 如果是文章模式
         if (this.runType == 1) {
             // 重置目标站点
-            this.selectTargetSite.getItems().removeAll(this.selectTargetSite.getItems());
-            this.selectTargetSite.setValue("飞华健康网");
+            this.selectTargetSite.getItems().remove(0, this.selectTargetSite.getItems().size());
+//            this.selectTargetSite.getItems().removeAll(this.selectTargetSite.getItems());
+            this.selectTargetSite.setValue("百度文库");
             for (String siteName : ArticleUIConfig.articleNameMap.keySet()) {
                 this.selectTargetSite.getItems().add(siteName);
             }

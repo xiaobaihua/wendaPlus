@@ -2,12 +2,10 @@ package com.xbh.wendaPlus.io.excelIO;
 
 import com.xbh.wendaPlus.bean.ArticleBean;
 import com.xbh.wendaPlus.io.IReader;
-import lombok.Cleanup;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.regexp.RE;
 
 import java.io.File;
 import java.io.FileInputStream;

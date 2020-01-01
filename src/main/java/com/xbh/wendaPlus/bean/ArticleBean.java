@@ -18,4 +18,8 @@ public class ArticleBean {
     private String content;
 
     private List<String> oneUrlList = new ArrayList();
+    private List<String> twoUrlList = new ArrayList<>();
+
+    private List<String> contentList = new ArrayList<>();
+
 }
