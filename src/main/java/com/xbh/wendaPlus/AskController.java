@@ -5,6 +5,7 @@ import com.xbh.wendaPlus.bean.ExcelBean;
 import com.xbh.wendaPlus.io.excelIO.ExcelReader;
 import com.xbh.wendaPlus.io.excelIO.ExcelWriter;
 import com.xbh.wendaPlus.spider.SpiderController;
+import com.xbh.wendaPlus.spider.baidu.BaiDuSpider;
 import com.xbh.wendaPlus.spider.baidu.ContentSpider;
 import com.xbh.wendaPlus.spider.baidu.HtmlUnit.HtmlUnit;
 import com.xbh.wendaPlus.url.UrlFactory;

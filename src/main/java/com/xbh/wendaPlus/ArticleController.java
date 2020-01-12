@@ -32,7 +32,6 @@ public class ArticleController {
 
     }
 
-
     public void initController(File inFile, File outFile) {
         this.setInFile(inFile);
         this.setOutFile(outFile);
@@ -43,11 +42,6 @@ public class ArticleController {
         articleBeanList = readExcelFile();
         // 添加第一个百度连接
         boolean b = addOneUrl(articleBeanList);
-//        // 开始爬取
-//        if (b) {
-//            ArticleSpider spider = new ArticleSpider(siteType);
-//            spider.spiderRun(articleBeanList);
-//        }
 
         System.out.println((System.currentTimeMillis() - millis) / 1000);
         // 写入前格式化一下

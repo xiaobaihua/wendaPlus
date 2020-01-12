@@ -8,9 +8,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.xbh.wendaPlus.ArticleController;
 import com.xbh.wendaPlus.bean.ArticleBean;
-import com.xbh.wendaPlus.spider.SpiderController;
 import com.xbh.wendaPlus.spider.article.spiderParse.BAIDUBAIKESpiderParse;
-import org.apache.http.cookie.ClientCookie;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -114,7 +112,8 @@ public class BAIDUBAIKESpiderHtmlUnit {
 
     public List<ArticleBean> getSearchData(List<ArticleBean> articleBeanList) throws InterruptedException {
         this.beans.addAll(articleBeanList);
-
+        int i = 0;
+        int currIndex = 0;
         for (ArticleBean bean : articleBeanList) {
             List<String> oneUrl = bean.getOneUrlList();
             if (oneUrl != null && oneUrl.size() > 0) {
@@ -134,6 +133,18 @@ public class BAIDUBAIKESpiderHtmlUnit {
             System.out.println(total != articleBeanList.size());
             System.out.println(total);
             System.out.println(articleBeanList.size());
+        }
+
+        if (total > 1) {
+            currIndex = total;
+            Thread.sleep(3000);
+            if (total - currIndex <= 0) {
+                i++;
+                System.out.println(i);
+            }
+            if (i > 20) {
+                return articleBeanList;
+            }
         }
 
         return articleBeanList;

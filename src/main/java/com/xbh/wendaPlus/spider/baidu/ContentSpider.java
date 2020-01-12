@@ -12,6 +12,7 @@ import com.xbh.wendaPlus.spider.dazhong.DZPageResultRule;
 import com.xbh.wendaPlus.spider.kuaisu.KSPageResultRule;
 import com.xbh.wendaPlus.spider.myzx.MYZXRule;
 import com.xbh.wendaPlus.spider.threenien.SJPageResultRule;
+import com.xbh.wendaPlus.spider.youlai.YLHtmlUnit;
 import com.xbh.wendaPlus.spider.youlai.YLPageResultRule;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class ContentSpider extends RamCrawler implements ISpider {
     public ContentSpider() {
         setResumable(false);
         setThreads(50);
-        conf.setExecuteInterval(1000);
+        conf.setExecuteInterval(2000);
         getConf().setConnectTimeout(10000);
     }
 
@@ -122,8 +123,8 @@ public class ContentSpider extends RamCrawler implements ISpider {
             AskBean askBean = AskController.askBeanList.get(Integer.valueOf(page.meta("id")));
             final String s = page.location();
             if (Pattern.matches(".*youlai.cn/ask/[0-9].*", s)) {
-                if (askBean.getThreeUrl().size() < 10) {
-                    next.addAndReturn(page.location()).meta(page.meta()).type("YLQA");
+                if (askBean.getThreeUrl().size() < 3) {
+//                    next.addAndReturn(page.location()).meta(page.meta()).type("YLQA");
                     askBean.getThreeUrl().add(page.location());
                 }
             }
@@ -133,11 +134,12 @@ public class ContentSpider extends RamCrawler implements ISpider {
 //                    askBean.getThreeUrl().add(page.location());
 //                }
 //            }
-        } else {
-            AskBean askBean = AskController.askBeanList.get(Integer.valueOf(page.meta("id")));
-            YLPageResultRule rule = new YLPageResultRule();
-            rule.parse(page, askBean, 60, 90);
         }
+//        else {
+//            AskBean askBean = AskController.askBeanList.get(Integer.valueOf(page.meta("id")));
+//            YLPageResultRule rule = new YLPageResultRule();
+//            rule.parse(page, askBean, 60, 90);
+//        }
     }
 
     @MatchType(types = "MYZXQA")
@@ -178,6 +180,13 @@ public class ContentSpider extends RamCrawler implements ISpider {
     public void addUrlAndStart(List<AskBean> beans) throws Exception {
         addUrl(beans);
         start();
+
+        // 有来单独获取内容
+        if (AskController.CurrentTargetSite.equals("有来医生")) {
+            YLHtmlUnit ylHtmlUnit = new YLHtmlUnit();
+            List<AskBean> beanList = ylHtmlUnit.getOSData(beans);
+            beans = beanList;
+        }
     }
 
     @Override

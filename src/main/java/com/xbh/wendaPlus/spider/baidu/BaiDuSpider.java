@@ -86,10 +86,16 @@ public class BaiDuSpider extends RamCrawler implements ISpider {
             final Integer id = Integer.valueOf(page.meta("id"));
             final AskBean bean = AskController.askBeanList.get(id);
             SpiderController.completed++;
-            Elements s = page.select("#datalist");
+            Elements selects = page.select(".result");
 
-            for (Element element : s.select("span.c_url")) {
-                bean.getTwoUrl().add(element.text());
+            if (selects != null && selects.size() > 0) {
+                for (Element element : selects) {
+                    Elements aTags = element.select(".t a");
+                    if (aTags != null && aTags.size() > 0) {
+                        String href = aTags.get(0).attr("href");
+                        bean.getTwoUrl().add(href);
+                    }
+                }
             }
         }
     }

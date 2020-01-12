@@ -1,40 +1,38 @@
-package com.xbh.wendaPlus.spider.baidu.HtmlUnit;
+package com.xbh.wendaPlus.spider.youlai;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.xbh.wendaPlus.bean.AskBean;
 import com.xbh.wendaPlus.spider.SpiderController;
-import com.xbh.wendaPlus.spider.baidu.ContentSpider;
+import com.xbh.wendaPlus.spider.baidu.HtmlUnit.HtmlUnit;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @Author: xbh
- * @Date: 2019/12/18  17:06
+ * @Date: 2020/1/11  20:09
  * @describe:
  **/
-public class HtmlUnit {
-//    private BlockingQueue  queue = new LinkedBlockingDeque();
+public class YLHtmlUnit {
     ExecutorService executor = null;
     LinkedList<AskBean> beans = new LinkedList<>();
     private static int total = 0;
-    public static Integer maxThread = 100;
-    public HtmlUnit() throws InterruptedException {
-        this.executor = Executors.newFixedThreadPool(maxThread);
+    public YLHtmlUnit() throws InterruptedException {
+        this.executor = Executors.newFixedThreadPool(HtmlUnit.maxThread);
     }
 
     private WebClient createWebClient() {
         //新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
-        final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_60);
+        final WebClient webClient = new WebClient(BrowserVersion.CHROME);
         //当JS执行出错的时候是否抛出异常, 这里选择不需要
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         //当HTTP的状态非200时是否抛出异常, 这里选择不需要
@@ -63,26 +61,15 @@ public class HtmlUnit {
             //TODO 下面的代码就是对字符串的操作了,常规的爬虫操作,用到了比较好用的Jsoup库
             //获取html文档
             Document document = Jsoup.parse(pageXml);
-            //获取元素节点等
-            Elements selects = document.select(".result");
 
-            if (selects != null && selects.size() > 0) {
-                for (Element element : selects) {
-                    Elements aTags = element.select(".t a");
-                    if (aTags != null && aTags.size() > 0) {
-                        String href = aTags.get(0).attr("href");
-                        strings.add(href);
-                    }
-                }
-            }
-
-            bean.getTwoUrl().addAll(strings);
+            YLPageResultRule rule = new YLPageResultRule();
+            rule.parse(document, bean, 60, 90);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            HtmlUnit.total++;
+            total++;
             SpiderController.completed ++;
-            System.out.println(HtmlUnit.total);
+            System.out.println(total);
             System.out.println("当前线程：  "+ Thread.activeCount());
             bean.getTwoUrl().addAll(strings);
             client.close();
@@ -94,23 +81,22 @@ public class HtmlUnit {
         int currIndex = 0;
         int i = 0;
         for (AskBean askBean : askBeanList) {
-            List<String> oneUrl = askBean.getOneUrl();
-            if (oneUrl != null && oneUrl.size() > 0) {
+            List<String> twoUrl = askBean.getTwoUrl();
+            if (twoUrl != null && twoUrl.size() > 0) {
                 Thread t = new Thread(()->{
                     try {
-                        this.run(oneUrl.get(0), askBean);
+                        this.run(twoUrl.get(0), askBean);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 });
-                Thread.sleep(100);
                 executor.execute(t);
             }
         }
 
-        while (HtmlUnit.total != askBeanList.size()) {
-            System.out.println(HtmlUnit.total != askBeanList.size());
-            System.out.println(HtmlUnit.total);
+        while (total != askBeanList.size()) {
+            System.out.println(total != askBeanList.size());
+            System.out.println(total);
             System.out.println(askBeanList.size());
             if (total > 1) {
                 currIndex = total;

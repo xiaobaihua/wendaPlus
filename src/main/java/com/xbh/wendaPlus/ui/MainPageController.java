@@ -132,27 +132,25 @@ public class MainPageController extends Application {
         Service<String> service=new Service<String>() {
             @Override
             protected Task<String> createTask() {
-                return new Task<String>() {
+            return new Task<String>() {
                     @Override
                     protected String call() throws Exception {
-
-                        while (true){
-                            //更新service的value属性
-                            if (runType == 0) {
-                                updateValue("最大"+(SpiderController.beanList.size() + SpiderController.beanList.size() * 20 )+ "| 已完成:" + SpiderController.completed);
-    //							//更新service的progress属性
-    //							updateProgress(a, 100d);
-                                Thread.sleep(100);
-                            } else if (runType == 1) {
-                                updateValue("最大"+ArticleController.articleBeanList.size()+ "| 已完成:" + ArticleController.completed);
-    //							//更新service的progress属性
-    //							updateProgress(a, 100d);
-                                Thread.sleep(100);
-                            }
-
-                        }
+                while (true){
+                    //更新service的value属性
+                    if (runType == 0) {
+                        updateValue("最大"+(SpiderController.beanList.size() + SpiderController.beanList.size() * 6 )+ "| 已完成:" + SpiderController.completed);
+//							//更新service的progress属性
+//							updateProgress(a, 100d);
+                        Thread.sleep(100);
+                    } else if (runType == 1) {
+                        updateValue("最大"+ArticleController.articleBeanList.size()+ "| 已完成:" + ArticleController.completed);
+//							//更新service的progress属性
+//							updateProgress(a, 100d);
+                        Thread.sleep(100);
                     }
-                };
+                }
+                    }
+            };
             }
         };
 
