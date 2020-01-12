@@ -24,8 +24,8 @@ public class ContentSpider extends RamCrawler implements ISpider {
 
     public ContentSpider() {
         setResumable(false);
-        setThreads(50);
-        conf.setExecuteInterval(2000);
+        setThreads(100);
+        conf.setExecuteInterval(1000);
         getConf().setConnectTimeout(10000);
     }
 
