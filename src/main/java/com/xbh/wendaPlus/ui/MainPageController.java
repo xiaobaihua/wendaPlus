@@ -138,7 +138,7 @@ public class MainPageController extends Application {
                 while (true){
                     //更新service的value属性
                     if (runType == 0) {
-                        updateValue("最大"+(SpiderController.beanList.size() + SpiderController.beanList.size() * 6 )+ "| 已完成:" + SpiderController.completed);
+                        updateValue("最大"+(SpiderController.beanList.size() + (SpiderController.beanList.size() * 10) + (SpiderController.beanList.size() * 3) )+ "| 已完成:" + SpiderController.completed);
 //							//更新service的progress属性
 //							updateProgress(a, 100d);
                         Thread.sleep(100);

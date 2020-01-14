@@ -37,7 +37,7 @@ public class ContentSpider extends RamCrawler implements ISpider {
             AskBean askBean = AskController.askBeanList.get(Integer.valueOf(page.meta("id")));
             final String s = page.location();
             if (Pattern.matches(".*120ask.com/question/[0-9].*", s)) {
-                if (askBean.getThreeUrl().size() < 10) {
+                if (askBean.getThreeUrl().size() <= 3) {
                     next.addAndReturn(page.location()).meta(page.meta()).type("ksQA");
                     askBean.getThreeUrl().add(page.location());
                 }

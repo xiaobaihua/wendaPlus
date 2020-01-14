@@ -52,7 +52,6 @@ public class HtmlUnit {
 
     private void run(String url,  AskBean bean) throws InterruptedException {
         WebClient client = createWebClient();
-        ArrayList<String> strings = new ArrayList<>();
         HtmlPage page = null;
         try {
             page = client.getPage(url);
@@ -71,12 +70,13 @@ public class HtmlUnit {
                     Elements aTags = element.select(".t a");
                     if (aTags != null && aTags.size() > 0) {
                         String href = aTags.get(0).attr("href");
-                        strings.add(href);
+
+                        if (bean.getTwoUrl().size() <= 10) {
+                            bean.getTwoUrl().add(href);
+                        }
                     }
                 }
             }
-
-            bean.getTwoUrl().addAll(strings);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -84,7 +84,6 @@ public class HtmlUnit {
             SpiderController.completed ++;
             System.out.println(HtmlUnit.total);
             System.out.println("当前线程：  "+ Thread.activeCount());
-            bean.getTwoUrl().addAll(strings);
             client.close();
         }
     }
