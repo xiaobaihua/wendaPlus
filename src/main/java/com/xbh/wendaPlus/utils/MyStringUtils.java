@@ -297,7 +297,6 @@ public class MyStringUtils {
 				target = target.replace(s, ",");
 			}
 
-
 		}
 		return target;
 	}

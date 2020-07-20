@@ -52,21 +52,9 @@ public class ExcelReader<T> implements IExcelReader<T>{
             ts.add((T) ExcelCellIndex.cellToBean(row, clazz));
         }
         // 添加结果标题
-        addResultHeadLine(ts, clazz);
+//        addResultHeadLine(ts, clazz);
 
         return ts;
-    }
-
-    private void addResultHeadLine(List<T> beans, Class clazz) {
-        if (clazz == AskBean.class) {
-            AskBean t = (AskBean)beans.get(0);
-            if (t.getResultBegin() != null) {
-                t.getResultList().add("答案1");
-                t.getResultList().add("答案2");
-                t.getResultList().add("答案3");
-            }
-        }
-
     }
 
     public T reader(Class clazz) throws Exception {

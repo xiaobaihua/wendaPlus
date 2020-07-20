@@ -22,6 +22,8 @@ public class KSPageResultRule {
         getBeanIssueByPage(vo, page, minLen, maxLen);
         getSexByPage(vo, page);
         getBeanResultByPage(vo, page);
+
+        System.out.println(12);
     }
 
     private PageResultVO getSexByPage(PageResultVO vo, Page page) {

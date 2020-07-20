@@ -77,6 +77,13 @@ public class ExcelCellIndex {
                             stringIntegerPair.setValue(i);
                         }
                     }
+
+                    for (String key : ExcelFieldConfig.resultMap.keySet()) {
+                        MutablePair<String, Integer> stringIntegerPair = ExcelFieldConfig.resultMap.get(key);
+                        if (stringIntegerPair.getKey().equals(cellValue)) {
+                            stringIntegerPair.setValue(i);
+                        }
+                    }
                 }
             }
         }
@@ -127,14 +134,8 @@ public class ExcelCellIndex {
                 e.printStackTrace();
             }
         }
-//                if (field.toString() )
-//                System.out.println(field.toGenericString());
-
-//        }
-
         return bean;
 }
-
     /**
      * 设置字段值
      * @param field 字段

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -22,7 +23,7 @@ public class ExcelBean {
     private String issue = null;
     private String result = null;
     private String resultBegin = null;
-    private List resultList = new ArrayList<String>();
+    private LinkedList resultList = new LinkedList<String>();
 
 
     public ExcelBean(AskBean askBean) {
@@ -74,6 +75,8 @@ public class ExcelBean {
     public void setResultList(PageResultVO vo) {
         GenerateFinalResult finalResult = new GenerateFinalResult();
         List<String> resultList = finalResult.generateResultList(vo);
-        this.resultList = resultList;
+        if (resultList != null) {
+            this.resultList.addAll(resultList);
+        }
     }
 }

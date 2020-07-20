@@ -61,6 +61,7 @@ public class ExcelWriter implements IExcelWriter {
     }
 
     public void writeAskBeanToRow(Row row, ExcelBean bean) throws NoSuchFieldException, IllegalAccessException {
+
         Class<? extends ExcelBean> beanClass = bean.getClass();
         for (Field field : beanClass.getDeclaredFields()) {
             if (field != null) {
@@ -75,13 +76,24 @@ public class ExcelWriter implements IExcelWriter {
                         if (value != null) {
                             writeToCell(row, pair.getValue(), value.toString());
                         }
-
                     }
                 }
-
                 field.setAccessible(false);
             }
         }
+
+        ExcelFieldConfig.resultMap.forEach((name, stringIntegerMutablePair) -> {
+            Integer resultCellIndex = stringIntegerMutablePair.getValue();
+            if (resultCellIndex > 0) {
+                Cell cell = row.getCell(resultCellIndex);
+                if (cell == null) {
+                    cell = row.createCell(resultCellIndex);
+                }
+                if (bean.getResultList().size() > 0) {
+                    cell.setCellValue(bean.getResultList().removeFirst().toString());
+                }
+            }
+        });
     }
 
     // 写入row中
